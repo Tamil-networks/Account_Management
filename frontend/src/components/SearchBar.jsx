@@ -70,7 +70,7 @@ function SearchBar({
             <button
                 type="button"
                 className="search-button"
-                onClick={onSearch}
+                onClick={() => onSearch()}
             >
 
                 <Search size={20} />
