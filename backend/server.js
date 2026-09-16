@@ -76,4 +76,39 @@ app.listen(PORT, "0.0.0.0", () => {
         });
     }
 })
+
+app.get("/api/doh-test", async (req, res) => {
+    try {
+        const host = process.env.DB_HOST;
+
+        const response = await fetch(
+            `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(host)}&type=A`,
+            {
+                headers: {
+                    Accept: "application/dns-json"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        res.json({
+            success: true,
+            host,
+            status: response.status,
+            answers: data.Answer || [],
+            raw: data
+        });
+
+    } catch (error) {
+        console.error("DOH TEST ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            host: process.env.DB_HOST,
+            error: error.message,
+            code: error.code || null
+        });
+    }
+});
 });
