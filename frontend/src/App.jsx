@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 import SearchBar from "./components/SearchBar";
 import ResultCard from "./components/ResultCard";
 
-import { searchAccounts } from "./services/searchService";
+import { searchAccounts, updateTick } from "./services/searchService";
 
 import useVoiceSearch from "./hooks/useVoiceSearch";
 
@@ -110,6 +110,71 @@ function App() {
 
         }
     };
+    const handleTickChange = async (account, newTick) => {
+
+    const secretCode = window.prompt(
+        "Tick மாற்ற secret code-ஐ உள்ளிடவும்:"
+    );
+
+    if (secretCode === null) {
+        return;
+    }
+
+    if (!secretCode.trim()) {
+        window.alert("Secret code தேவை.");
+        return;
+    }
+
+    try {
+
+        setLoading(true);
+
+        await updateTick({
+            Name1: account.Name1,
+            Name2: account.Name2,
+            Village: account.Village,
+            Tick: newTick,
+            secretCode: secretCode.trim()
+        });
+
+        setResults((currentResults) =>
+            currentResults.map((item) => {
+
+                if (
+                    item.Name1 === account.Name1 &&
+                    item.Name2 === account.Name2 &&
+                    item.Village === account.Village
+                ) {
+                    return {
+                        ...item,
+                        Tick: newTick
+                    };
+                }
+
+                return item;
+            })
+        );
+
+        setMessage(`நிலை ${newTick} ஆக மாற்றப்பட்டது`);
+
+    } catch (error) {
+
+        console.error("Tick update error:", error);
+
+        if (error.response?.status === 401) {
+            window.alert("Secret code தவறாக உள்ளது.");
+        } else if (error.response?.data?.message) {
+            window.alert(error.response.data.message);
+        } else {
+            window.alert(
+                "Tick-ஐ மாற்ற முடியவில்லை."
+            );
+        }
+
+    } finally {
+        setLoading(false);
+    }
+};
 
 
     // =====================================
@@ -323,6 +388,7 @@ function App() {
                                  <ResultCard
                                      key={index}
                                      account={account}
+                                     onTickChange={handleTickChange}
                                  />
 
                               )
