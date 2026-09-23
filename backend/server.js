@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const db = require("./config/database");
 const searchRoutes = require("./routes/searchRoutes");
+const tickRoutes = require("./routes/tickRoutes");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.get("/api/health", async (req, res) => {
 });
 
 app.use("/api", searchRoutes);
+app.use("/api", tickRoutes);
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Moi Account Management API running on port ${PORT}`);

@@ -1,5 +1,18 @@
 const mysql = require("mysql2/promise");
+const fs = require("fs");
+
 require("dotenv").config();
+
+let caCertificate;
+
+if (process.env.DB_SSL_CA) {
+    caCertificate = process.env.DB_SSL_CA.replace(/\\n/g, "\n");
+} else if (process.env.DB_SSL_CA_PATH) {
+    caCertificate = fs.readFileSync(
+        process.env.DB_SSL_CA_PATH,
+        "utf8"
+    );
+}
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -15,7 +28,7 @@ const pool = mysql.createPool({
     ssl: process.env.DB_SSL === "true"
         ? {
             rejectUnauthorized: true,
-            ca: process.env.DB_SSL_CA
+            ca: caCertificate
         }
         : undefined
 });
