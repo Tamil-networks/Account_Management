@@ -171,41 +171,6 @@ The application is designed to work across:
                     └─────────────────────┘
 ```
 
----
-
-## 📂 Project Structure
-
-```text
-moi-account-management/
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── hooks/
-│   │   └── ...
-│   │
-│   ├── public/
-│   ├── package.json
-│   └── ...
-│
-├── backend/
-│   ├── routes/
-│   ├── controllers/
-│   ├── database/
-│   ├── server.js
-│   ├── package.json
-│   └── ...
-│
-├── README.md
-└── .gitignore
-```
-
-> Update the structure above to match the actual folders in your project.
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -240,26 +205,6 @@ npm install
 cd ../backend
 npm install
 ```
-
-### 4. Configure Environment Variables
-
-Create an `.env` file in the backend directory.
-
-Example:
-
-```env
-DB_HOST=your_database_host
-DB_PORT=3306
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
-DB_NAME=moi_account
-DB_SSL_CA=your_ssl_certificate_path
-PORT=5000
-```
-
-**Do not commit the `.env` file to GitHub.**
-
-Use `.env.example` to show the required variable names without exposing credentials.
 
 ### 5. Start the Backend
 
@@ -427,18 +372,10 @@ The current version includes the core account search and management functionalit
 
 **Tamilselvan**
 
-Software Developer | AI & IoT Enthusiast | Founder of Hybotron
+Software Developer
 
 ---
 
-## 📄 License
 
-Add your preferred license here.
-
-For example:
-
-```text
-MIT License
-```
 
 If this project contains private or sensitive account data, make sure the repository contains only appropriate **sample/demo data** and not real personal information.
